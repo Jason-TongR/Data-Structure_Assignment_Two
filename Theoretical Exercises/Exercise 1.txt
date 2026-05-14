@@ -1,0 +1,71 @@
+Exercise 1 : 
+
+
+
+(a)    
+    public class RankSelect{
+        
+        private ArrayList<Integer> number_of_true;          //in the field of our data structure , we have the number of true array , the element is the rank(A,i) in i position 
+        
+        public RankSelect( ArrayList<Boolean> A ){          //this is the constructor , initializes the data structure
+
+            number_of_true = new ArrayList<>();          
+            
+            int count_of_one = 0;
+
+            for( int i = 0 ; i < A.size() ; i++ ){
+                
+                number_of_true.add(count_of_one);
+
+                if( A.get(i) )
+                    count_of_one++;
+
+            }
+
+        }
+
+
+
+        public int rank(int i){
+
+            assert ( i >= 0 ) && ( i < number_of_true.size() ) : "preconditon , since the size of A = the size of number_of_true  , so 0 <= i < n = size of A "
+
+            return number_of_true.get(i);
+        }
+
+    }
+
+    
+    COMMENT :   1. In the initializes part of our data structure (i.e the constructor part) , the Worst time complexity is O(n) , because we have only one for loop in size n
+                
+                2. in the rank(int i) , the Worst time complexity is O(1) , because all code in this method take O(1) . 
+
+
+
+==================================================================================================================================================================================
+
+
+(b)
+    in class RankSelect:
+
+    public class RankSelect{
+        
+        field ...
+
+        constructor ...
+
+        public int rank(i){...}
+
+
+        
+        /*
+            we note that the array number_of_true actually is sorted (monotonic increasing)
+            so we can do binary search in the array number_of_true.
+
+            
+        */
+        public int select( int j ){
+
+        }
+
+    }
