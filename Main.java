@@ -99,7 +99,31 @@ class DLBMap<T> {
     }
 
     T get(String key) {
-        
+        if (key == null || key.length() == 0){
+            return null;
+        }
+
+        Node curr = this.first;
+
+        for (int i = 0;i < key.length();i++){
+            char c = key.charAt(i);
+
+            while (curr != null && curr.symbol != c){
+                curr = curr.sibling;
+            }
+            
+            //Although key must be contained,just to make sure.
+            if (curr == null){
+                return null;
+            }
+
+            //Arrived at the last letter;
+            if (i == key.length() - 1){
+                return curr.value;
+            }
+
+            curr = curr.child;
+        }
         return null;
     }
 
