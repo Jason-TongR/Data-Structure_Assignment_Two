@@ -18,6 +18,11 @@ class DLBMap<T> {
     }
 
     void add(String key, T value) {
+        //If the trie is null,initialize the root node first.
+        if (first == null){
+            first = new Node(key.charAt(0));
+        }
+        Node 
         /* COMPLETE */
     }
 
