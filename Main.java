@@ -52,7 +52,7 @@ class DLBMap<T> {
                 return;
             }
 
-            //Movement4:Not at the end of the word yet, prepare to move down to the next level.
+            //Movement4:Not at the end of the word yet,prepare to move down to the next level.
             if (curr.child == null){
                 curr.child = new Node(key.charAt(i+1));
             }
@@ -64,12 +64,42 @@ class DLBMap<T> {
     }
 
     boolean contains(String key) {
-        /* COMPLETE */
+        if (key == null || key.length() == 0){
+            return false;
+        }
+
+        Node curr = this.first;
+
+        for (int i = 0;i < key.length();i++){
+            char c = key.charAt(i);
+
+            //Movement1:Find the letter c among the right siblings.
+            while (curr != null && curr.symbol != c){
+                curr = curr.sibling;
+            }
+
+            //Movement2:No c among right siblings,no such word in the dictionary.
+            if (curr == null){
+                return false;
+            }
+
+            //Movement3:Walk to the last letter of the word.
+            //Checking if the value exist.
+            if (i == key.length() - 1){
+                return curr.keyPresent;
+            }
+
+            //Movement4:Move down to the next level.
+            curr = curr.child;
+        }
+
         return false;
+        //Worst-case time complexity: O(m),
+        //where m is the length of the given key.
     }
 
     T get(String key) {
-        /* COMPLETE */
+        
         return null;
     }
 
