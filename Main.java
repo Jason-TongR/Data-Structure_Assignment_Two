@@ -18,12 +18,49 @@ class DLBMap<T> {
     }
 
     void add(String key, T value) {
-        //If the trie is null,initialize the root node first.
-        if (first == null){
-            first = new Node(key.charAt(0));
+        //Key can't be null.
+        if (key == null || key.length() == 0){
+            return;
         }
-        Node 
-        /* COMPLETE */
+
+        //If the trie is null,initialize the root node first.
+        if (this.first == null){
+            this.first = new Node(key.charAt(0));
+        }
+        Node curr = this.first;
+        Node prev = null;
+
+        for (int i = 0;i < key.length();i++){
+            char c = key.charAt(i);
+
+            //Movement1:Find the letter c among the right siblings.
+            while (curr != null && curr.symbol != c){
+                prev = curr;
+                curr = curr.sibling;
+            }
+
+            //Movement2:No c among right siblings,construct a new one in the end.
+            if (curr == null){
+                curr = new Node(c);
+                prev.sibling = curr;
+            }
+
+            //Movement3:Check if we have reached the last letter of the words.
+            if (i == key.length() - 1){
+                curr.keyPresent = true;
+                curr.value = value;
+                return;
+            }
+
+            //Movement4:Not at the end of the word yet, prepare to move down to the next level.
+            if (curr.child == null){
+                curr.child = new Node(key.charAt(i+1));
+            }
+            prev = null;
+            curr = curr.child;
+        }
+        //Worst-case time complexity: O(m),
+        //where m is the length of the given key.
     }
 
     boolean contains(String key) {
