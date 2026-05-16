@@ -66,7 +66,26 @@ Exercise 2 :
     Our pseudo code : 
 
         public ArrayList<Integer> OptimizeAlgorithm(){
-            MakeMinHeap(A[0][0] , A[1][0] , A[2][0] , ... , A[n-1][0] ) ;       // this step take O(n) times
+            
+            new MinHeap = makeHeap(A[0][0] , A[1][0] , A[2][0] , ... , A[n-1][0] );       // this step take O(n) times
+            
+            ArrayList<Integer> ResultArray = new ArrayList<>();
+
+            while( MinHeap.root != null ){
+                
+                ResultArray.add(MinHeap.root);
+                
+                MinHeap.delete(root);
+
+                if(the root is not the last element in its Array)
+                    MinHeap.add(the next element of Array of the root);
+            }
+
+            return ResultArray;
         }
+
+
+
+        Therefore , followed by the optimize algorithm , the time complexity is O(mn*log n).
 
 
