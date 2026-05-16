@@ -128,12 +128,73 @@ class DLBMap<T> {
     }
 
     void remove(String key) {
-        /* COMPLETE */
+        if (key == null || key.length() == 0){
+            return;
+        }
+
+        this.first = removeMachine (this.first, key, 0);
+        //Worst-case time complexity: O(m),
+        //where m is the length of the given key.
+    }
+
+    private Node removeMachine (Node curr, String key, int i){
+        //Base case:Reach a dead end directly,the key is not in the dictionary.
+        if(curr == null){
+            return null;
+        }
+        char c = key.charAt(i);
+
+        //Step1:Top-Down
+        if (curr.symbol == c){
+            if (i == key.length() - 1){
+                curr.keyPresent = false;
+                curr.value = null;
+            }else{
+                curr.child = removeMachine (curr.child, key, i + 1);
+            }
+        }else{
+            curr.sibling = removeMachine(curr.sibling, key, i);
+        }
+
+        //Step2:Bottom-Up
+        //If this node does not contain a key and has no childr,
+        //it is a useless node.
+        if (curr.child == null && !curr.keyPresent){
+            return curr.sibling;
+        }
+
+        //If the node is still useful, 
+        //either holds a key or has child, keep it.
+        return curr;
     }
 
     ArrayList<String> allKeys() {
-        /* COMPLETE */
-        return null;
+        ArrayList<String> result = new ArrayList<>();
+        StringBuilder currWord = new StringBuilder();
+        collectKeys(this.first, currWord, result);
+        return result;
+    }
+
+    private void collectKeys (Node curr, StringBuilder prefix, ArrayList<String> result){
+        //Base case:No node,backing!
+        if (curr == null){
+            return;
+        }
+
+        //Movement1:Add the current node's character to our working prefix.
+        prefix.append(curr.symbol);
+
+        //Movement2:Record the key.
+        //If this node marks the end of a valid word,
+        //add it to the result list.
+        if (curr.keyPresent){
+            result.add(prefix.toString());
+        }
+        collectKeys(curr.child, prefix, result);
+
+        //Movement3:Remove the current character,moving to the right sibling.
+        prefix.deleteCharAt(prefix.length() - 1);
+        collectKeys(curr.sibling, prefix, result);
     }
 
     /* Representation */
