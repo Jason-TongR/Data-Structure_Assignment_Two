@@ -190,6 +190,7 @@ class DLBMap<T> {
         if (curr.keyPresent){
             result.add(prefix.toString());
         }
+
         collectKeys(curr.child, prefix, result);
 
         //Movement3:Remove the current character,moving to the right sibling.
@@ -222,11 +223,18 @@ class DLBMapTest {
     static void runAllTests() {
         test0();
         test1();
-        // TODO: add more tests
+        test2();
+        test3();
+        test4();
+        test5();
+        test6();
+        test7();
+        test8();
+        System.out.println("All tests passed.");
     }
 
     static void test0() {
-        DLBMap d = new DLBMap<Integer>();
+        DLBMap<Integer> d = new DLBMap<Integer>();
         assert !d.contains("hi");
         assert !d.contains("hello");
         d.add("hi", 1);
@@ -237,10 +245,123 @@ class DLBMapTest {
         assert d.get("hello").equals(2);
     }
 
+    //a)Insert w1.Check prefixes and extensions.
     static void test1() {
-        /* COMPLETE */
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+        String w1 = "hello";
+        String w2 = "hellogt";
+
+        //Act
+        d.add(w1, 3);
+
+        //Assert
+        //1.Check w1 is in the map with the correct value.
+        assert d.contains(w1);
+        assert d.get(w1).equals(3);
+        //2.Check that none of its prefixes are in the map.
+        assert !d.contains("h");
+        assert !d.contains("he");
+        assert !d.contains("hel");
+        assert !d.contains("hell");
+        //3.Check that none of the extensions of w1 
+        //which are prefixes of w2 are in the map
+        assert !d.contains(w2);
     }
 
-    /* add more tests */
+    //b)Inserting two disjoint keys.Check prefixes and extensions.
+    static void test2(){
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+        String w1 = "Nube";
+        String w2 = "Nubies";
+        String w3 = "Nubes";
+
+        //Act
+        d.add(w1, 17);
+        d.add(w2, 21);
+
+        //Assert
+        //1.Check the keys are in the map with the correct value.
+        assert d.contains(w1) && d.get(w1).equals(17);
+        assert d.contains(w2) && d.get(w2).equals(21);
+        //2.Check that none of their prefixes are in the map.
+        assert !d.contains("N");
+        assert !d.contains("Nu");
+        assert !d.contains("Nub");
+        assert !d.contains("Nubi");
+        assert !d.contains("Nubie");
+        //3.Check that none of the extensions of w1 
+        //which are prefixes of w3 are in the map
+        assert !d.contains(w3);
+    }
+
+    //c)Insert w1 and then an extension w2 .
+    static void test3(){
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+        String w1 = "he";
+        String w2 = "hello";
+
+        //Act
+        d.add(w1, 1);
+        d.add(w2, 2);
+
+        //Assert
+        //1.Check that keys are in the map with the correct value.
+        assert d.contains(w1) && d.get(w1).equals(1);
+        assert d.contains(w2) && d.get(w2).equals(2);
+        
+        //2.Check that none of the extensions of w1 
+        //which are prefixes of w2 are in the map.
+        assert !d.contains("hel");
+        assert !d.contains("hell");
+    }
+
+    //d)Repeat the previous test,but insert w2 before w1 .
+    static void test4(){
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+        String w1 = "hello";
+        String w2 = "he";
+
+        //Act
+        d.add(w1, 2);
+        d.add(w2, 1);
+
+        //Assert
+        //1.Check that keys are in the map with the correct value.
+        assert d.contains(w1) && d.get(w1).equals(2);
+        assert d.contains(w2) && d.get(w2).equals(1);
+        
+        //2.Check that none of the extensions of w1 
+        //which are prefixes of w2 are in the map.
+        assert !d.contains("hel");
+        assert !d.contains("hell");
+    }
+
+    //List of keys for tests 5/6/7
+    static String[] Keys = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", "aba", "abb", "baa", "bab", "bba", "bbb"}
+    
+    //e)lexicographic insertion
+    static void test5(){
+        
+    }
+
+    //f)
+    static void test6(){
+
+    }
+
+    //g)
+    static void test7(){
+
+    }
+
+    //h)
+    static void test8(){
+
+    }
+
 }
 
