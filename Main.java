@@ -341,26 +341,92 @@ class DLBMapTest {
     }
 
     //List of keys for tests 5/6/7
-    static String[] Keys = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", "aba", "abb", "baa", "bab", "bba", "bbb"}
+    static String[] keys = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", "aba", "abb", "baa", "bab", "bba", "bbb"};
     
     //e)lexicographic insertion
     static void test5(){
-        
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+
+        //Act
+        for (int i = 0; i < keys.length; i++){
+            d.add(keys[i],i);
+        }
+        ArrayList<String> all = d.allKeys();
+
+        //Assert
+        //Check that the set of keys contains all the keys.
+        for (int i = 0; i < keys.length; i++){
+            assert d.contains(keys[i]) && d.get(keys[i]).equals(i);
+        }
+        assert all.size() == keys.length;
+        for (String k : keys){
+            assert all.contains(k);
+        }
     }
 
-    //f)
+    //f)Overwrite all the values with new values
     static void test6(){
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+        for (int i = 0; i < keys.length; i++){
+            d.add(keys[i],i);
+        }
 
+        //Act
+        for (int i = 0; i < keys.length; i++){
+            d.add(keys[i],i + 100);
+        }
+
+        //Assert
+        //Re-check that they have the correct values.
+        for (int i = 0; i < keys.length; i++){
+            assert d.get(keys[i]).equals(i + 100);
+        }
     }
 
-    //g)
+    //g)in reverse lexicographic order
     static void test7(){
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
 
+        //Act
+        for (int i = keys.length - 1; i >= 0; i--){
+            d.add(keys[i],i);
+        }
+
+        //Assert
+        //check that they have the correct values.
+        for (int i = 0; i < keys.length; i++){
+            assert d.contains(keys[i]) && d.get(keys[i]).equals(i);
+        }
     }
 
-    //h)
+    //h)Validate that key removal is working correctly.
     static void test8(){
+        //Arrange
+        DLBMap<Integer> d = new DLBMap<Integer>();
+        d.add("bad", 1);
+        d.add("baby", 2);
+        d.add("cat", 3);
 
+        //Act1
+        d.remove("bad");
+        //Assert1
+        assert !d.contains("bad");
+        assert d.contains("baby");
+
+        //Act2
+        d.remove("baby");
+        //Assert2
+        assert !d.contains("baby");
+        assert d.contains("cat");
+
+        //Act3
+        d.remove("cat");
+        //Assert3
+        assert !d.contains("cat");
+        assert d.allKeys().isEmpty();
     }
 
 }
