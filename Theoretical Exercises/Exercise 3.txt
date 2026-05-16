@@ -1,0 +1,69 @@
+Exercise 3 :
+    
+    Our idea is :
+        we will use HashMap to do this exercise.
+        in our HashMap<String , Integer> , 
+        the first arugment(key) is the appear times of each character in the word (id card)
+            e.g. :  abc -> its id card is a1b1c1d0e0...z0
+                    bac -> its id card is a1b1c1d0e0...z0
+                    cba -> its id card is a1b1c1d0e0...z0
+                    jason -> its id card is a1b0...j1...s1..o1..n1...z0
+    
+        the second arugment(value) is the add times of each id card in this Set
+            e.g. :  we add 'abc' -> <a1b1c1d0......z0 , 1>
+                    we add 'bca' -> <a1b1c1d0......z0 , 2>
+
+    
+
+
+
+    This is the design of the data strucure : (pseudo code)
+
+    public class StringSet{
+        
+        HashMap<String , Integer> SetOfString;      // the first argument is the "id card" for each word , the second argument is the appear tiems of the permutation of the word in this Set
+
+
+        public StringSet(){
+            
+            SetOfString = new HashMap<>();
+
+        }
+
+
+
+        void insert(String w){
+
+            We can look at the characters of the String w one by one , 
+            and compute the appear times of each character,
+            At the end we will get the id card of w
+
+            Then at last , value.( id_card of w )++;     
+
+        }
+
+
+
+        int countAnagrams(String w){
+
+            String id_card_of_w = compute_id_card(w);
+
+            return value.(id_card of w);
+
+        }
+
+
+
+
+    }
+
+
+
+    COMMENT : 1. In the void insert(String w)
+                 we go through all the characters of w and count the appear times
+                 so the worst time complexity is O(m). (the length of w)
+
+              2. In the countAnagrams(String w) 
+                 we count the id card(key) of w first(use the same method) , this will take O(m) times
+                 then we will get the key of w , and return the value of that key in the set , it takes O(1)
+                 so the worst time complexity is also O(m).    
