@@ -42,30 +42,36 @@ Exercise 1 :
 
 
 
+
 ==================================================================================================================================================================================
 
 
+
 (b)
-    in class RankSelect:
+    proof:
 
-    public class RankSelect{
-        
-        field ...
-
-        constructor ...
-
-        public int rank(i){...}
-
-
-        
-        /*
-            we note that the array number_of_true actually is sorted (monotonic increasing)
-            so we can do binary search in the array number_of_true.
-
-            
-        */
         public int select( int j ){
-
+            ...
         }
 
-    }
+
+            in Exercise (a) , we know that the method rank( int i ) is to return the number of "true" in the array A[0,1,...,i-1]
+            
+            and we note that the array " number_of_true " actually is sorted (monotonic increasing)
+
+            so , actually , select(j) is the smallest number k such that rank(k) = j .
+
+            that is , we want to find that k.
+
+            More , since the array " number_of_true " is sorted again ,
+
+            so we can do binary search in the array " number_of_true " to find that k.
+
+            we know that the Worst case of the binary search is O(log n) , the time complexity of rank( int i ) is O(1) . So the total Worst time complexity is O(log n). DONE! 
+
+            Therefore , we proved that just by using rank operation , and without storing additional information in the data strucure , we can implement the select( int j ) operaiton. 
+
+            Q.E.D.
+            
+            
+    
