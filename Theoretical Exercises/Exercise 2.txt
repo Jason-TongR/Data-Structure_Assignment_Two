@@ -1,0 +1,72 @@
+Exercise 2 :
+
+
+
+(a)
+    The Worst case time complexity of this algorithm is O(m*(n)^2).
+
+    proof :
+        
+        
+        the structure of the algorithm is like this : (just pseudo code):
+        
+
+
+        public ArrayList<Integer> ThisAlgorithm(){
+
+            for ( int i = 0 ; i < n ; i++ ){
+                
+                Merge(B,A[i]);                  // Merge B and A[i]
+
+                B = Merge(B,A[i]);              // Update B equal to the previous one
+            
+            }
+
+            return B;
+
+        }
+
+
+
+        Since Merge( M1 , M2 ) will takes O( |M1| + |M2| )
+         
+        So , This algorithm will takes O( (m+m) + (2m+m) + (3m+m) + ... + ((n-1)m+m) ) = O( nm + m*(n)^2) = O( (n+n^2)m ) = O(m*n^2)
+           
+        Therefore , the time complexity of this algorithm is O(m*(n)^2).  (actually , for this time algorithm , Best time complexity = Worst time complexity)
+        
+        Q.E.D.
+
+
+
+        =============================================================================================================================================================
+
+
+
+(b)
+    We will use heap to optimize our algorithm.
+
+    By hypothesis , we have that :
+        A[0] is sorted increasingly
+        A[1] is sorted increasingly
+        ...
+        A[n-1] is sorted increasingly
+
+    Our idea is :
+        we will make a Min-Heap of size n , the elements in the heap is the first element in each A[i] ( that is the smallest element in each A[i] )
+        
+        since in the heap , delete takes O(log n) times , insertion take O(log n) times 
+         
+        so in this heap , we will delete the top element(that is the smallest element in the heap) and put it into our result array , then insert the next element in some A[i],
+
+        since we have total nm elements,
+
+        Therefore , the time complexity of this algorithm is O(mn*log n).
+
+
+    Our pseudo code : 
+
+        public ArrayList<Integer> OptimizeAlgorithm(){
+            MakeMinHeap(A[0][0] , A[1][0] , A[2][0] , ... , A[n-1][0] ) ;       // this step take O(n) times
+        }
+
+
