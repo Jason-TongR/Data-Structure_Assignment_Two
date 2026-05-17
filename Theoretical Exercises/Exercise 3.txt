@@ -1,4 +1,4 @@
-Exercise 3 :
+Exercise 3 : A data structure for anagram checking
     
     Our idea is :
         we will use HashMap to do this exercise.
@@ -66,4 +66,4 @@ Exercise 3 :
               2. In the countAnagrams(String w) 
                  we count the id card(key) of w first(use the same method) , this will take O(m) times
                  then we will get the key of w , and return the value of that key in the set , it takes O(1)
-                 so the worst time complexity is also O(m).    
+                 so the worst time complexity is also O(m).

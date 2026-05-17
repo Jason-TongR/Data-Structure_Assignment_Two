@@ -1,0 +1,107 @@
+Exercise 4: A data structure for ranking players
+
+    Our idea is :
+        We will use AVL tree to solve this problem.
+
+        The node of the tree has three variables:
+            int score : the score of this game
+            int count : how many players have this score at this moment
+            int total : the sum of the nodes of the subtree of this node
+        
+        We will also use an array score[n] to remember the score of each players.
+
+
+
+
+        For example , suppose we have 6 players , now they all have 0 points.
+            so , now :
+                our AVL tree is like this :
+                                [score:0 , count:6 , total:6]
+
+                our array score[6] is like this :
+                                [0 , 0 , 0 , 0 , 0 , 0]
+
+            now , we add 1 point to players zero , then :
+                our AVL tree is like this :
+
+                                [score:0 , count:5 , total:6]
+                                                \
+                                                 \
+                                                  \
+                                         [score:1 , count:1 , total:1]
+
+
+                our array score[6] is like this:
+                                [1 , 0 , 0 , 0 , 0 , 0]
+
+
+
+
+    Our pesudo code is :
+
+
+        class Node<Integer>{
+            int score;
+            int count;
+            int total;
+            Node<Integer> left = null;
+            Node<Integer> right = null;
+        }
+
+
+
+        public class Ranking( int n ){
+            
+            Node<Integer> root;     //our AVL tree
+
+            int score[n];           //our array score[n]
+
+
+
+            public Ranking(){
+
+                //initialize the array score[n]
+                for(int i = 0 ; i < n ; i++){
+                    score[i] = 0;           
+                }
+
+
+                //initialize the AVL tree
+                root.score = 0;
+                root.count = n;
+                root.total = n;
+
+            }
+
+
+
+            void score(int i){
+
+                assert (i >= 0 && i < n) : "Precondition";
+                
+                in AVL tree , we search the node "Node" that have score[i] , this step take O(log n) in AVL tree
+                
+                Node.count--;
+
+                if(Node.right != null){
+                    Node.right.count++;
+                    Node.right.total++;
+                }
+                else{
+                    create a node and do the same above , then assign to Node.right
+                }
+
+            }
+
+
+
+            int ranking(int i){
+
+                assert (i >= 0 && i < n) : "Precondition";
+
+                in AVL tree , we search the node "Node" that have score[i]  (that is the player i 's score) , this step take O(log n) in AVL tree
+
+                return Node.total;
+
+            }
+        }
