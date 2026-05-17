@@ -78,26 +78,42 @@ Exercise 4: A data structure for ranking players
             void score(int i){
 
                 assert (i >= 0 && i < n) : "Precondition";
-                
-                //update the array score[n]
-
-                score[i]++;
-                
-
+            
 
 
                 //update the AVL tree
-                in AVL tree , we search the node "Node" that have score[i] , this step take O(log n) in AVL tree
-                
-                Node.count--;
 
-                if(Node.right != null){
-                    Node.right.count++;
-                    Node.right.total++;
+                in AVL tree , we search the node "Node" that have score score[i] , this step take O(log n) in AVL tree
+                
+                Node.count--; (if count go to zero , then delete this node)
+
+                if(Node.count == 0){
+                    delete(Node);
+                    and do update rotation operation for AVL tree;
                 }
                 else{
-                    create a node and do the same above , then assign to Node.right
+                    update total upward(Node).          //total-- for all parent of Node
                 }
+
+
+                now , we seach the node "Next" that have score score[i+1] , this step also take O(log n) time
+
+                if(next != null){
+                    next.count++;
+                    update total upward(Next);          //total++ for all parent of Next
+                }
+
+                else{
+                    inset the node "Next"
+                }
+
+
+
+
+                //update the array score[n]
+
+                score[i]++;
+
 
             }
 
@@ -108,8 +124,8 @@ Exercise 4: A data structure for ranking players
                 assert (i >= 0 && i < n) : "Precondition";
 
                 in AVL tree , we search the node "Node" that have score[i]  (that is the player i 's score) , this step take O(log n) in AVL tree
-
-                return Node.total;
+                
+                return Node.right.total + Node.count;
 
             }
         }
@@ -117,6 +133,7 @@ Exercise 4: A data structure for ranking players
 
         COMMENT :  1. In the void score(int i) , update the array score[n] just take O(1) time
                                                  update the AVL tree take O(log n) time in the worst case
+                                                 rotation operation take O(log n) time (we do it for all parent of Node)
                      
                       So the total time complexity in the Worst case is O(log n).
                     
