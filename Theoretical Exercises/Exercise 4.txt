@@ -79,6 +79,14 @@ Exercise 4: A data structure for ranking players
 
                 assert (i >= 0 && i < n) : "Precondition";
                 
+                //update the array score[n]
+
+                score[i]++;
+                
+
+
+
+                //update the AVL tree
                 in AVL tree , we search the node "Node" that have score[i] , this step take O(log n) in AVL tree
                 
                 Node.count--;
@@ -105,3 +113,12 @@ Exercise 4: A data structure for ranking players
 
             }
         }
+
+
+        COMMENT :  1. In the void score(int i) , update the array score[n] just take O(1) time
+                                                 update the AVL tree take O(log n) time in the worst case
+                     
+                      So the total time complexity in the Worst case is O(log n).
+                    
+                    
+                   2. In the int ranking(int i) , similary it takes O(log n) in the worst case.
