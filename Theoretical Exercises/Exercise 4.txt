@@ -124,8 +124,9 @@ Exercise 4: A data structure for ranking players
                 assert (i >= 0 && i < n) : "Precondition";
 
                 in AVL tree , we search the node "Node" that have score[i]  (that is the player i 's score) , this step take O(log n) in AVL tree
+                Moreover , actually we we get a path when we search for "Node" , then we will sum all the "count" of the node that have "score" strictly bigger than the score[i] , we denote it by k                
                 
-                return Node.right.total + Node.count;
+                return k + Node.right.total + Node.count;
 
             }
         }
