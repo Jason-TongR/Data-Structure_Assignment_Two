@@ -22,13 +22,15 @@ Exercise 1 : A data structure for select and rank
 
             }
 
+            number_of_true.add(count_of_one);
+
         }
 
 
 
         public int rank(int i){
 
-            assert ( i >= 0 ) && ( i < number_of_true.size() ) : "preconditon , since the size of A = the size of number_of_true  , so 0 <= i < n = size of A "
+            assert ( i >= 0 ) && ( i < number_of_true.size() ) : "precondition , since the size of A = the size of number_of_true  , so 0 <= i < n = size of A "
 
             return number_of_true.get(i);
         }
@@ -57,9 +59,9 @@ Exercise 1 : A data structure for select and rank
 
             in Exercise (a) , we know that the method rank( int i ) is to return the number of "true" in the array A[0,1,...,i-1]
             
-            and we note that the array " number_of_true " actually is sorted (monotonic increasing)
+            and we note that the outputs of the method rank(int i) actually are monotonic non-decreasing
 
-            so , actually , select(j) is the smallest number k such that rank(k) = j .
+            so , actually , select(j) is the smallest index k such that rank(k) = j .
 
             that is , we want to find that k.
 
