@@ -18,17 +18,21 @@ class DLBMap<T> {
     }
 
     void add(String key, T value) {
-        //Key can't be null.
-        if (key == null || key.length() == 0){
-            return;
-        }
+        // Precondition : Key can't be null.
+        assert (key != null && key.length() != 0) : "Key can't be null";
 
-        //If the trie is null,initialize the root node first.
+
+
+        //If the trie(DLB tree) is null,initialize the root node first.
         if (this.first == null){
-            this.first = new Node(key.charAt(0));
+            this.first = new Node(key.charAt(0));       //we use charAt(index : 0) to get the 0 position character of the key
         }
+        
+        
+
+        //If the trie(DLB tree) is not null , we need to find the position to insert the new key-value pair.
         Node curr = this.first;
-        Node prev = null;
+        Node prev = null;           // prev here is only do for sibling movement, once we move down to the child level, we will reset prev to null, and only update it when we move to the sibling level.
 
         for (int i = 0;i < key.length();i++){
             char c = key.charAt(i);
@@ -45,7 +49,7 @@ class DLBMap<T> {
                 prev.sibling = curr;
             }
 
-            //Movement3:Check if we have reached the last letter of the words.
+            //Movement3:Check if we have reached the last letter of the words. 
             if (i == key.length() - 1){
                 curr.keyPresent = true;
                 curr.value = value;
@@ -59,8 +63,22 @@ class DLBMap<T> {
             prev = null;
             curr = curr.child;
         }
-        //Worst-case time complexity: O(m),
-        //where m is the length of the given key.
+        /* 
+
+            SOME COMMENTS ON THE TIME COMPLEXITY OF THE "add" METHOD:
+
+                Worst-case time complexity: O(m),
+                where m is the length of the given key.
+
+                Reason:
+                
+                    1. In the "for" loop , we at most go through all the characters of the key , which is O(m).
+                    2  In the "while" loop , since the number of English letters is at most 26 , so it is bounded by O(26) which is O(1).
+                    3. The rest of the operations in the loop are all O(1).
+
+                    Therefore , the Worst-case time complexity is O(m) * O(1) = O(m).
+
+        */
     }
 
     boolean contains(String key) {
