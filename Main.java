@@ -387,7 +387,11 @@ class DLBMapTest {
 
 
 
-    //a)Insert w1.Check prefixes and extensions.
+    /*
+    a)
+    
+    Insert w1.Check prefixes and extensions.
+    */
     static void test1() {
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -414,7 +418,11 @@ class DLBMapTest {
 
 
 
-    //b)Inserting two disjoint keys.Check prefixes and extensions.
+    /*
+    b)
+    
+    Inserting two disjoint keys.Check prefixes and extensions.
+    */
     static void test2(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -444,7 +452,11 @@ class DLBMapTest {
 
 
 
-    //c)Insert w1 and then an extension w2 .
+    /*
+    c)
+    
+    Insert w1 and then an extension w2 .
+    */
     static void test3(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -469,7 +481,11 @@ class DLBMapTest {
 
 
 
-    //d)Repeat the previous test,but insert w2 before w1 .
+    /*
+    d)
+    
+    Repeat the previous test,but insert w2 before w1 .
+    */
     static void test4(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -497,7 +513,11 @@ class DLBMapTest {
 
 
 
-    //e)lexicographic insertion
+    /*
+    e)
+    
+    lexicographic insertion
+    */
     static void test5(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -522,7 +542,11 @@ class DLBMapTest {
 
 
 
-    //f)Overwrite all the values with new values
+    /*
+    f)
+    
+    Overwrite all the values with new values
+    */
     static void test6(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -545,7 +569,11 @@ class DLBMapTest {
 
 
 
-    //g)in reverse lexicographic order
+    /*
+    g)
+    
+    in reverse lexicographic order
+    */
     static void test7(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
@@ -565,7 +593,11 @@ class DLBMapTest {
 
 
 
-    //h)Validate that key removal is working correctly.
+    /*
+    h)
+    
+    Validate that key removal is working correctly.
+    */
     static void test8(){
         //Arrange
         DLBMap<Integer> d = new DLBMap<Integer>();
