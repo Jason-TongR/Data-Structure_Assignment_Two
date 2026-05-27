@@ -206,43 +206,82 @@ class DLBMap<T> {
 
 
     void remove(String key) {
-        if (key == null || key.length() == 0){
-            return;
-        }
+        
+        //Precondition : The aim key can't be null.
+        assert (key != null && key.length() != 0) : "Your aim key can't be null";
 
         this.first = removeMachine (this.first, key, 0);
-        //Worst-case time complexity: O(m),
-        //where m is the length of the given key.
+        /*
+            SOME COMMENTS ON THE TIME COMPLEXITY OF THE "remove" METHOD:
+        
+                Worst-case time complexity: O(m),
+                where m is the length of the given key.
+
+                Reason:
+                
+                    1. In the "removeMachine" method , we at most go through all the characters of the key , which is O(m).
+                    2  In the "while" loop inside the "removeMachine" method, since the number of English letters is at most 26 , so it is bounded by O(26) which is O(1).
+                    3. The rest of the operations in the "removeMachine" method are all O(1).
+
+                    Therefore , the Worst-case time complexity is O(m) * O(1) = O(m).
+        */
     }
 
+
+
+
+    /*
+        An auxiliary method for the remove method.
+
+        This private method will delete the aim key and its value, 
+        and also remove the useless nodes that are only used for this key.
+
+        This method will return the updated node after deletion, which will be used to update the parent node's child or sibling pointer.
+
+
+        About the parameters :
+            1. Node curr : the current node we are looking at in the DLB tree.
+            2. String key : the key we want to remove.
+            3. int i : the index of the character in the key that we are currently looking at.
+    */
     private Node removeMachine (Node curr, String key, int i){
+
+
         //Base case:Reach a dead end directly,the key is not in the dictionary.
         if(curr == null){
             return null;
         }
         char c = key.charAt(i);
 
-        //Step1:Top-Down
+
+        //Step1:From Top to Down,find the key and delete it.
         if (curr.symbol == c){
-            if (i == key.length() - 1){
+            if (i == key.length() - 1){     //If we reached the last letter of the key , delete the key and its value ,set keyPresent to false, and value to null.
                 curr.keyPresent = false;
                 curr.value = null;
-            }else{
+            }
+            else{                           //If we have not reached the last letter of the key , do this recursively on the child node.
                 curr.child = removeMachine (curr.child, key, i + 1);
             }
-        }else{
+        }
+        else{
             curr.sibling = removeMachine(curr.sibling, key, i);
         }
 
-        //Step2:Bottom-Up
-        //If this node does not contain a key and has no childr,
-        //it is a useless node.
+        
+        //Step2:From Bottom to Top,remove the useless nodes
+        /*
+            If this node does not contain a key and has no child,
+            it is a useless node.
+        */
         if (curr.child == null && !curr.keyPresent){
             return curr.sibling;
         }
 
-        //If the node is still useful, 
-        //either holds a key or has child, keep it.
+        /*
+            Otherwise , the node is still useful, 
+            either holds a key or has child, keep it.
+        */
         return curr;
     }
 
