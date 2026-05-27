@@ -240,9 +240,9 @@ class DLBMap<T> {
 
 
         About the parameters :
-            1. Node curr : the current node we are looking at in the DLB tree.
-            2. String key : the key we want to remove.
-            3. int i : the index of the character in the key that we are currently looking at.
+            1. Node curr        : the current node we are looking at in the DLB tree.
+            2. String key       : the key we want to remove.
+            3. int i            : the index of the character in the key that we are currently looking at.
     */
     private Node removeMachine (Node curr, String key, int i){
 
@@ -285,13 +285,29 @@ class DLBMap<T> {
         return curr;
     }
 
+
+    
+
+
+
     ArrayList<String> allKeys() {
         ArrayList<String> result = new ArrayList<>();
+
         StringBuilder currWord = new StringBuilder();
+
         collectKeys(this.first, currWord, result);
         return result;
     }
 
+    /*
+        An auxiliary method for the allKeys method.
+        This private method will go through the whole DLB tree and collect all the keys in the result list.
+
+        About the parameters :
+            1. Node curr                : the current node we are looking at in the DLB tree.
+            2. StringBuilder prefix     : the prefix we have built when we walk down the tree, which will be used to construct the key when we reach a node that marks a valid key.
+            3. ArrayList<String> result : the list that we will add all the keys into. 
+    */
     private void collectKeys (Node curr, StringBuilder prefix, ArrayList<String> result){
         //Base case:No node,backing!
         if (curr == null){
@@ -301,9 +317,12 @@ class DLBMap<T> {
         //Movement1:Add the current node's character to our working prefix.
         prefix.append(curr.symbol);
 
+
         //Movement2:Record the key.
-        //If this node marks the end of a valid word,
-        //add it to the result list.
+        /*
+            If this node marks the end of a valid word,
+            add it to the result list.
+        */
         if (curr.keyPresent){
             result.add(prefix.toString());
         }
@@ -350,6 +369,9 @@ class DLBMapTest {
         System.out.println("All tests passed.");
     }
 
+
+    
+
     static void test0() {
         DLBMap<Integer> d = new DLBMap<Integer>();
         assert !d.contains("hi");
@@ -361,6 +383,9 @@ class DLBMapTest {
         assert d.get("hi").equals(1);
         assert d.get("hello").equals(2);
     }
+
+
+
 
     //a)Insert w1.Check prefixes and extensions.
     static void test1() {
@@ -385,6 +410,9 @@ class DLBMapTest {
         //which are prefixes of w2 are in the map
         assert !d.contains(w2);
     }
+
+
+
 
     //b)Inserting two disjoint keys.Check prefixes and extensions.
     static void test2(){
@@ -413,6 +441,9 @@ class DLBMapTest {
         assert !d.contains(w3);
     }
 
+
+
+
     //c)Insert w1 and then an extension w2 .
     static void test3(){
         //Arrange
@@ -434,6 +465,9 @@ class DLBMapTest {
         assert !d.contains("hel");
         assert !d.contains("hell");
     }
+
+
+
 
     //d)Repeat the previous test,but insert w2 before w1 .
     static void test4(){
@@ -460,6 +494,9 @@ class DLBMapTest {
     //List of keys for tests 5/6/7
     static String[] keys = {"a", "b", "aa", "ab", "ba", "bb", "aaa", "aab", "aba", "abb", "baa", "bab", "bba", "bbb"};
     
+
+
+
     //e)lexicographic insertion
     static void test5(){
         //Arrange
@@ -482,6 +519,9 @@ class DLBMapTest {
         }
     }
 
+
+
+
     //f)Overwrite all the values with new values
     static void test6(){
         //Arrange
@@ -502,6 +542,9 @@ class DLBMapTest {
         }
     }
 
+
+
+
     //g)in reverse lexicographic order
     static void test7(){
         //Arrange
@@ -518,6 +561,9 @@ class DLBMapTest {
             assert d.contains(keys[i]) && d.get(keys[i]).equals(i);
         }
     }
+
+
+
 
     //h)Validate that key removal is working correctly.
     static void test8(){
