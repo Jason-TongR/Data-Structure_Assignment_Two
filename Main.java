@@ -9,6 +9,11 @@ public class Main {
 
 }
 
+
+
+
+
+
 class DLBMap<T> {
 
     /* Implementation */
@@ -16,6 +21,10 @@ class DLBMap<T> {
     DLBMap() {
         this.first = null;
     }
+
+
+
+
 
     void add(String key, T value) {
         // Precondition : Key can't be null.
@@ -81,10 +90,23 @@ class DLBMap<T> {
         */
     }
 
+
+
+
+
     boolean contains(String key) {
-        if (key == null || key.length() == 0){
-            return false;
-        }
+        
+        /*
+            Precondition : Key can't be null.
+            
+            Why we need this assertion here?
+
+                In add method , we asserted that the key cannot be null,
+                So here we need this assertion.
+        */
+        assert (key != null && key.length() != 0) : "Your aim key can't be null";
+
+
 
         Node curr = this.first;
 
@@ -96,14 +118,17 @@ class DLBMap<T> {
                 curr = curr.sibling;
             }
 
-            //Movement2:No c among right siblings,no such word in the dictionary.
+            //Movement2:No c among right siblings,no such word in the dictionary. return false.
             if (curr == null){
                 return false;
             }
 
-            //Movement3:Walk to the last letter of the word.
-            //Checking if the value exist.
-            if (i == key.length() - 1){
+
+            /*
+              Movement3:Walk to the last letter of the word.
+              Checking if the value exist. 
+            */
+            if (i == key.length() - 1){     // if we have reached the last letter of the word , if the keyPresent is true , it means that we have this key in the dictionary , return true , otherwise , return false.
                 return curr.keyPresent;
             }
 
@@ -112,38 +137,73 @@ class DLBMap<T> {
         }
 
         return false;
-        //Worst-case time complexity: O(m),
-        //where m is the length of the given key.
+        /*
+
+            SOME COMMENTS ON THE TIME COMPLEXITY OF THE "contains" METHOD:
+
+                Worst-case time complexity: O(m)
+                where m is the length of the given key.
+
+                Reason:
+
+                    1. In the "for" loop , we at most go through all the characters of the key , which is O(m).
+                    2  In the "while" loop , since the number of English letters is at most 26 , so it is bounded by O(26) which is O(1).
+                    3. The rest of the operations in the loop are all O(1).
+
+                    Therefore , the Worst-case time complexity is O(m) * O(1) = O(m).
+
+        */
     }
 
+
+
+
+
     T get(String key) {
-        if (key == null || key.length() == 0){
-            return null;
-        }
+    
+        //Precondition : The key must be contained in the dictionary.
+        assert ( contains(key) == true ) : "The key must be contained in the dictionary";
 
         Node curr = this.first;
 
         for (int i = 0;i < key.length();i++){
             char c = key.charAt(i);
 
-            while (curr != null && curr.symbol != c){
+            while (curr.symbol != c){
                 curr = curr.sibling;
             }
             
-            //Although key must be contained,just to make sure.
-            if (curr == null){
-                return null;
-            }
-
             //Arrived at the last letter;
             if (i == key.length() - 1){
                 return curr.value;
             }
 
+            //Move down to the next level.
             curr = curr.child;
         }
         return null;
+
+        /*
+
+            SOME COMMENTS ON THE TIME COMPLEXITY OF THE "get" METHOD:
+
+                Worst-case time complexity: O(m)
+                where m is the length of the given key.
+
+                Reason:
+
+                    1. In the "for" loop , we at most go through all the characters of the key , which is O(m).
+                    2  In the "while" loop , since the number of English letters is at most 26 , so it is bounded by O(26) which is O(1).
+                    3. The rest of the operations in the loop are all O(1).
+
+                    Therefore , the Worst-case time complexity is O(m) * O(1) = O(m).
+        
+        */
     }
+
+
+
+
 
     void remove(String key) {
         if (key == null || key.length() == 0){
