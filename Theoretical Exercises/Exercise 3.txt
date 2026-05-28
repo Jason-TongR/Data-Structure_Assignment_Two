@@ -1,44 +1,50 @@
 Exercise 3 : A data structure for anagram checking
     
     Our idea is :
-        we will use HashMap to do this exercise.
-        in our HashMap<String , Integer> , 
-        the first arugment(key) is the appear times of each character in the word (id card)
-            e.g. :  abc -> its id card is a1b1c1d0e0...z0
-                    bac -> its id card is a1b1c1d0e0...z0
-                    cba -> its id card is a1b1c1d0e0...z0
-                    jason -> its id card is a1b0...j1...s1..o1..n1...z0
-    
-        the second arugment(value) is the add times of each id card in this Set
-            e.g. :  we add 'abc' -> <a1b1c1d0......z0 , 1>
-                    we add 'bca' -> <a1b1c1d0......z0 , 2>
-
-    
+        To achieve a strict worst-case time complexity of O(m), 
+            we cannot use a HashMap because hash collisions can degrade its worst-case time to O(N).
+        Instead, we will use a Trie (Prefix Tree).
+        We will use the "id card" idea. Since the alphabet has only 26 letters, 
+            we can use Counting Sort to sort any string w into a canonical string w' in O(m) time.
+                e.g. "cba" -> its id card is "abc"
+                e.g. "silent" -> its id card is "eilnst"
+        We will insert this sorted "id card" into the Trie.
 
 
 
     This is the design of the data strucure : (pseudo code)
 
-    public class StringSet{
-        
-        HashMap<String , Integer> SetOfString;      // the first argument is the "id card" for each word , the second argument is the appear tiems of the permutation of the word in this Set
+    // Define a Trie node that also stores the count of anagrams
 
+    class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        int count = 0; 
+        // Number of words ending here
+    }
 
-        public StringSet(){
-            
-            SetOfString = new HashMap<>();
-
+    public class StringSet {
+        TrieNode root;
+        public StringSet() {
+            root = new TrieNode();
         }
 
 
 
         void insert(String w){
 
-            We can look at the characters of the String w one by one , 
-            and compute the appear times of each character,
-            At the end we will get the id card of w
+            String id_card = compute_sorted_id_card(w); 
+            // Takes O(m)          
+            TrieNode curr = root;
+            // Walk down the Trie. Takes O(m)   
+            for (char c : id_card) {
+                if (curr.children[c - 'a'] == null){
+                curr.children[c - 'a'] = new TrieNode();
+                }
+                curr = curr.children[c - 'a'];
+            }
 
-            Then at last , value.( id_card of w )++;     
+            curr.count++; 
+            // Mark the end of the id_card
 
         }
 
@@ -46,24 +52,26 @@ Exercise 3 : A data structure for anagram checking
 
         int countAnagrams(String w){
 
-            String id_card_of_w = compute_id_card(w);
+            String id_card = compute_sorted_id_card(w); 
+            // Takes O(m)
+            TrieNode curr = root;
+            // Walk down the Trie. Takes O(m)
+            for (char c : id_card) {
 
-            return value.(id_card of w);
+                if (curr.children[c - 'a'] == null){
+                    return 0; 
+                    // id_card not found
+                }
+
+                curr = curr.children[c - 'a'];
+
+            }
+
+            return curr.count;
 
         }
-
-
-
 
     }
 
 
 
-    COMMENT : 1. In the void insert(String w)
-                 we go through all the characters of w and count the appear times
-                 so the worst time complexity is O(m). (the length of w)
-
-              2. In the countAnagrams(String w) 
-                 we count the id card(key) of w first(use the same method) , this will take O(m) times
-                 then we will get the key of w , and return the value of that key in the set , it takes O(1)
-                 so the worst time complexity is also O(m).
