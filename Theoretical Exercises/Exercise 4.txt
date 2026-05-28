@@ -96,7 +96,7 @@ Exercise 4: A data structure for ranking players
                 }
 
 
-                now , we seach the node "Next" that have score score[i+1] , this step also take O(log n) time
+                now , we seach the node "Next" that have score （ score[i] + 1  ）, this step also take O(log n) time
 
                 if(next != null){
                     next.count++;
@@ -124,9 +124,15 @@ Exercise 4: A data structure for ranking players
                 assert (i >= 0 && i < n) : "Precondition";
 
                 in AVL tree , we search the node "Node" that have score[i]  (that is the player i 's score) , this step take O(log n) in AVL tree
-                Moreover , actually we we get a path when we search for "Node" , then we will sum all the "count" of the node that have "score" strictly bigger than the score[i] , we denote it by k                
-                
-                return k + Node.right.total + Node.count;
+                During the O(log n) search path for score[i], we maintain a sum 'k' (initially 0) to count all players with strictly greater scores.
+                    At each step of the search from the root:
+                    - If target score > current node's score: we go RIGHT, do nothing to k.
+                    - If target score < current node's score: we go LEFT. 
+                    Since all players in the right subtree and the current node have higher scores, 
+                    we update: k = k + current.count + current.right.total.
+
+                When we finally find the "Node" with score[i], the final ranking is:
+                return k + Node.count + Node.right.total;
 
             }
         }
