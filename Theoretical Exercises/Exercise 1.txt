@@ -65,7 +65,7 @@ Exercise 1 : A data structure for select and rank
 
             that is , we want to find that k.
 
-            More , since the array " number_of_true " is sorted again ,
+            More , since the output of the rank operation is monotonic non-decreasing ,
 
             so we can do binary search over the possible index range [0, n-1] to find that k.
 
