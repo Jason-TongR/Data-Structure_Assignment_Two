@@ -86,8 +86,6 @@ Exercise 2 : Multi-way sorting
             
             ArrayList<Integer> ResultArray = new ArrayList<>();
 
-            return ResultArray;
-
             while ( !Heap.isEmpty() ) {
 
                 Tuple minItem = Heap.extractMin();  // Pop the smallest tuple
@@ -103,6 +101,7 @@ Exercise 2 : Multi-way sorting
 
                 }
             }
+            return ResultArray;
         }
 
 
