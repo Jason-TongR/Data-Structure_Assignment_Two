@@ -61,13 +61,13 @@ Exercise 1 : A data structure for select and rank
             
             and we note that the outputs of the method rank(int i) actually are monotonic non-decreasing
 
-            so , actually , select(j) is the smallest index k such that rank(k) = j .
+            so , actually , select(j) is the smallest index k such that rank(k + 1) == j + 1.
 
             that is , we want to find that k.
 
             More , since the array " number_of_true " is sorted again ,
 
-            so we can do binary search in the array " number_of_true " to find that k.
+            so we can do binary search over the possible index range [0, n-1] to find that k.
 
             we know that the Worst case of the binary search is O(log n) , the time complexity of rank( int i ) is O(1) . So the total Worst time complexity is O(log n). DONE! 
 
