@@ -1,79 +1,166 @@
 Exercise 3 : A data structure for anagram checking
     
+
+
     Our idea is :
-        To achieve a strict worst-case time complexity of O(m), 
-            we cannot use a HashMap because hash collisions can degrade its worst-case time to O(N).
-        Instead, we will use a Trie (Prefix Tree).
-        We will use the "id card" idea. Since the alphabet has only 26 letters, 
-            we can use Counting Sort to sort any string w into a canonical string w' in O(m) time.
-                e.g. "cba" -> its id card is "abc"
-                e.g. "silent" -> its id card is "eilnst"
+        
+        Why we don't use a HashMap do achieve this :
+
+            To achieve a strict worst-case time complexity of O(m), 
+                we cannot use a HashMap because hash collisions can degrade its worst-case time to O(N).
+        
+
+        Instead, we will use a Trie (Prefix Tree) :
+
+            We will use the "id card" idea. Since the alphabet has only 26 letters, 
+                we can use Counting Sort to sort any string w into a canonical string w' in O(m) time , that is , the id_card is always sorted in the English alphabet order.
+                    e.g. "cba" -> its id card is "abc"             
+                    e.g. "silent" -> its id card is "eilnst"
+
         We will insert this sorted "id card" into the Trie.
+
+
 
 
 
     This is the design of the data strucure : (pseudo code)
 
-    // Define a Trie node that also stores the count of anagrams
 
-    class TrieNode {
-        TrieNode[] children = new TrieNode[26];
-        int count = 0; 
-        // Number of words ending here
-    }
 
-    public class StringSet {
-        TrieNode root;
-        public StringSet() {
-            root = new TrieNode();
+
+        // Define a Trie node that also stores the count of anagrams
+
+
+
+
+        class TrieNode {
+            TrieNode[] children = new TrieNode[26];
+            int count = 0;                  //this is to count how many words have the same id_card (i.e. how many anagrams of this id_card we have inserted into the Trie)
         }
 
 
 
-        void insert(String w){
 
-            String id_card = compute_sorted_id_card(w); 
-            // Takes O(m)          
-            TrieNode curr = root;
-            // Walk down the Trie. Takes O(m)   
-            for (char c : id_card) {
-                if (curr.children[c - 'a'] == null){
-                curr.children[c - 'a'] = new TrieNode();
-                }
-                curr = curr.children[c - 'a'];
+
+
+        public class StringSet {
+            TrieNode root;
+            public StringSet() {
+                root = new TrieNode();
             }
 
-            curr.count++; 
-            // Mark the end of the id_card
-
-        }
 
 
 
-        int countAnagrams(String w){
 
-            String id_card = compute_sorted_id_card(w); 
-            // Takes O(m)
-            TrieNode curr = root;
-            // Walk down the Trie. Takes O(m)
-            for (char c : id_card) {
+            void insert(String w){
 
-                if (curr.children[c - 'a'] == null){
-                    return 0; 
-                    // id_card not found
+                // Step 1 : Compute the sorted id_card of w.
+
+                String id_card = compute_sorted_id_card(w); 
+                  
+
+
+                // Step 2 : Walk down the Trie.
+
+                TrieNode curr = root;
+  
+                for (char c : id_card) {
+
+                    if (curr.children[c - 'a'] == null){
+                    curr.children[c - 'a'] = new TrieNode();
+                    }
+
+                    curr = curr.children[c - 'a'];
+
                 }
 
-                curr = curr.children[c - 'a'];
+                curr.count++; 
+                // Mark the end of the id_card
 
             }
 
-            return curr.count;
+
+
+
+
+            int countAnagrams(String w){
+
+                // Step 1 : Compute the sorted id_card of w.
+
+                String id_card = compute_sorted_id_card(w); 
+                
+
+
+                // Step 2 : Walk down the Trie.
+
+                TrieNode curr = root;
+                
+                for (char c : id_card) {
+
+                    if (curr.children[c - 'a'] == null){
+                        return 0; 
+                        // id_card not found
+                    }
+
+                    curr = curr.children[c - 'a'];
+
+                }
+
+                return curr.count;
+
+            }
 
         }
 
-    }
 
-问题1：   COMMENT：复杂度分析
-问题2：   compute_sorted_id_card（w）的解释
+
+
+
+
+    SOME COMMENT ABOUT THE CODE :
+        
+
+        1. What is the "compute_sorted_id_card(w)" method ?
+
+            This method is to sort a String of English letters into a sorted form.
+            The proccess is similar to counting array in Integer sorting.
+                
+            We can use a map like this :
+
+                a -> 1
+                b -> 2
+                ...
+                z -> 26
+
+            Then we just need to sort the Integer array of the String w according to the map above, then we can get the sorted id_card of w.
+
+            Since the worst time complexity of sorting integer array of size m is O(m) , so the time complexity of compute_sorted_id_card(w) is O(m).
+
+
+
+
+
+
+
+        2. About the time complexity , why this two methods take O(m) time ?
+
+            The insert method :
+
+                    The compute_sorted_id_card(w) takes O(m) time, as explained above.
+    
+                    Walking down the Trie also takes O(m) time, since we process each character of the id_card once.
+    
+                    Therefore, the overall time complexity of the insert method is O(m).                
+
+    
+            The countAnagrams method :
+
+                    Similar to insert, the compute_sorted_id_card(w) takes O(m) time.
+    
+                    Walking down the Trie also takes O(m) time.
+    
+                    Therefore, the overall time complexity of the countAnagrams method is O(m).
+
 
 
