@@ -35,23 +35,31 @@ Exercise 3 : A data structure for anagram checking
 
         class TrieNode {
             TrieNode[] children = new TrieNode[26];
-            int count = 0;                  //this is to count how many words have the same id_card (i.e. how many anagrams of this id_card we have inserted into the Trie)
+            int count = 0;                  
+            //this is to count how many words have the same id_card (i.e. how many anagrams of this id_card we have inserted into the Trie)
         }
-
-
-
-
-
 
         public class StringSet {
             TrieNode root;
+
             public StringSet() {
                 root = new TrieNode();
             }
 
-
-
-
+            // 就在这里，凭空加上这一整段工具方法：（仅仅copy了，你可以修改一下格式
+    private String compute_sorted_id_card(String w) {
+        int[] freq = new int[26];
+        for (char c : w.toCharArray()) {
+            freq[c - 'a']++;
+        }
+        String id_card = "";
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < freq[i]; j++) {
+                id_card += (char)(i + 'a');
+            }
+        }
+        return id_card;
+    }
 
             void insert(String w){
 
@@ -60,12 +68,11 @@ Exercise 3 : A data structure for anagram checking
                 String id_card = compute_sorted_id_card(w); 
                   
 
-
                 // Step 2 : Walk down the Trie.
 
                 TrieNode curr = root;
   
-                for (char c : id_card) {
+                for (char c : id_card.toCharArray()) {
 
                     if (curr.children[c - 'a'] == null){
                     curr.children[c - 'a'] = new TrieNode();
@@ -80,10 +87,6 @@ Exercise 3 : A data structure for anagram checking
 
             }
 
-
-
-
-
             int countAnagrams(String w){
 
                 // Step 1 : Compute the sorted id_card of w.
@@ -96,7 +99,7 @@ Exercise 3 : A data structure for anagram checking
 
                 TrieNode curr = root;
                 
-                for (char c : id_card) {
+                for (char c : id_card.toCharArray()) {
 
                     if (curr.children[c - 'a'] == null){
                         return 0; 
@@ -161,6 +164,21 @@ Exercise 3 : A data structure for anagram checking
                     Walking down the Trie also takes O(m) time.
     
                     Therefore, the overall time complexity of the countAnagrams method is O(m).
+//gemini认为一下的可以覆盖SOME COMMENT ABOUT THE CODE :
+COMPLEXITY ANALYSIS :
+        
+        1. Why compute_sorted_id_card(w) takes O(m) time?
+            Instead of using a general sorting algorithm which would take O(m log m) time, we use Counting Sort. We count the frequencies of characters in a fixed-size array of 26. The counting step takes O(m) time, and rebuilding the string takes O(26) = O(1) time. Thus, the worst-case time complexity is strictly O(m).
 
+        2. The insert method :
+            The compute_sorted_id_card(w) takes O(m) time, as explained above.
+            Walking down the Trie also takes exactly O(m) steps, since the id_card has length m and there are no hash collisions in a Trie.
+            Therefore, the overall worst-case time complexity of insert is O(m).
 
+        3. The countAnagrams method :
+            Similar to insert, the compute_sorted_id_card(w) takes O(m) time.
+            Walking down the Trie to find the node takes at most O(m) steps.
+            Therefore, the overall worst-case time complexity of countAnagrams is strictly O(m).
+            
+        Q.E.D.
 
