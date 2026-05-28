@@ -73,5 +73,7 @@ Exercise 3 : A data structure for anagram checking
 
     }
 
+问题1：   COMMENT：复杂度分析
+问题2：   compute_sorted_id_card(w）的解释
 
 
